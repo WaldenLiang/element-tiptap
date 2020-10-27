@@ -1,12 +1,12 @@
 // @ts-nocheck
 import { Node as ProsemirrorNode, DOMOutputSpec } from 'prosemirror-model';
 import { Image as TiptapImage } from 'tiptap-extensions';
-import { MenuData } from 'tiptap';
+import { CommandGetter, MenuData } from 'tiptap';
 import { MenuBtnView } from '@/../types';
 import { ImageDisplay } from '@/utils/image';
 import { DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_DISPLAY, DEFAULT_IMAGE_URL_REGEX } from '@/constants';
 import InsertImageCommandButton from '@/components/MenuCommands/Image/InsertImageCommandButton.vue';
-import ImageView from '@/components/ExtensionViews/ImageView.vue';
+import { deleteSelection } from 'prosemirror-commands';
 
 // @ts-ignore
 function getAttrs (dom: HTMLElement): { [key: string]: any } {
@@ -81,7 +81,7 @@ export default class Image extends TiptapImage implements MenuBtnView {
         width: {
           default: this.imageDefaultWidth > 0
             ? this.imageDefaultWidth
-            : DEFAULT_IMAGE_WIDTH,
+            : null,
         },
         height: {
           default: null,
@@ -99,8 +99,30 @@ export default class Image extends TiptapImage implements MenuBtnView {
     };
   }
 
-  get view () {
-    return ImageView;
+  commands ({ type }): CommandGetter {
+    return {
+      image: attrs => (state, dispatch) => {
+        const { selection } = state;
+        const position = selection.$cursor ? selection.$cursor.pos : selection.$to.pos;
+        const node = type.create(attrs);
+        const transaction = state.tr.insert(position, node);
+        dispatch(transaction);
+      },
+      removeNode: () => (state, dispatch) => {
+        deleteSelection(state, dispatch);
+      },
+      updateNode: attrs => {
+        return (state, dispatch) => {
+          const { node, from } = state.selection; // must be a node selection, so make sure "node" is present
+
+          const tr = state.tr;
+          tr.setNodeMarkup(from, null, Object.assign({}, node.attrs, attrs));
+          dispatch(tr);
+
+          return true;
+        };
+      }
+    };
   }
 
   menuBtnView (editorContext: MenuData) {

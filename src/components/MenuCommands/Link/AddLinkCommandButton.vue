@@ -24,7 +24,8 @@
             <el-select v-model="linkType"
                        slot="prepend"
                        placeholder="Select"
-                       style="width: 80px">
+                       style="width: 80px"
+                       :popper-append-to-body="false">
               <el-option :label="et.t('editor.extensions.Link.add.control.link_type.web')"
                          value="web" />
               <el-option :label="et.t('editor.extensions.Link.add.control.link_type.mail')"

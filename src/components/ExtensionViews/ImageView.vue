@@ -6,6 +6,7 @@
         'image-view__body--resizing': resizing,
       }"
       class="image-view__body"
+      style="font-size: 0"
     >
       <img
         :src="src"

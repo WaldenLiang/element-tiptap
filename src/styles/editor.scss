@@ -123,6 +123,7 @@
       margin-bottom: 0;
       margin-top: 0;
       outline: none;
+      box-sizing: border-box;
     }
 
     h1,
@@ -234,6 +235,7 @@
       float: none;
       margin: 12px 0;
       max-width: 100%;
+      box-sizing: border-box;
 
       &[data-display=inline] {
         margin-left: 12px;
@@ -255,6 +257,13 @@
         margin-left: 12px;
         margin-right: 0;
       }
+    }
+
+    video {
+      display: block;
+      margin: 12px 0;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .image-view {

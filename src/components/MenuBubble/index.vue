@@ -2,23 +2,14 @@
   <editor-menu-bubble
     v-slot="editorContext"
     v-bind="menuBubbleOptions"
-    :editor="editor"
-  >
+    :editor="editor">
     <div
-      :class="{
-        'el-tiptap-editor__menu-bubble--active':
-          editorContext.menu.isActive && bubbleMenuEnable,
-      }"
-      :style="`
-        left: ${ editorContext.menu.left }px;
-        bottom: ${ editorContext.menu.bottom + 10 }px;
-      `"
-      class="el-tiptap-editor__menu-bubble"
-    >
+      :class="{'el-tiptap-editor__menu-bubble--active': editorContext.menu.isActive && bubbleMenuEnable}"
+      :style="`left: ${ editorContext.menu.left + ('image' === activeMenu ? 70 : (activeMenu === 'video' ? 50 : 0)) }px; bottom: ${ editorContext.menu.bottom + 10 }px;`"
+      class="el-tiptap-editor__menu-bubble">
       <link-bubble-menu
         v-if="activeMenu === 'link'"
-        :editorContext="{ ...editorContext, editor }"
-      >
+        :editorContext="{ ...editorContext, editor }">
         <template #prepend>
           <div
             v-if="textMenuEnable"
@@ -30,6 +21,14 @@
           </div>
         </template>
       </link-bubble-menu>
+
+      <image-bubble-menu
+        v-else-if="activeMenu === 'image'"
+        :editor-context="{ ...editorContext, editor }" />
+
+      <video-bubble-menu
+        v-else-if="activeMenu === 'video'"
+        :editor-context="{ ...editorContext, editor }" />
 
       <template v-else-if="activeMenu === 'default'">
         <component
@@ -50,23 +49,29 @@ import Icon from 'vue-awesome/components/Icon.vue';
 import { Component, Prop, Vue, Inject, Watch } from 'vue-property-decorator';
 import { Editor, EditorMenuBubble, MenuData } from 'tiptap';
 // @ts-ignore
-import { getMarkRange } from 'tiptap-utils';
-import { TextSelection, AllSelection, Selection } from 'prosemirror-state';
+import { getMarkRange, nodeEqualsType } from 'tiptap-utils';
+import { TextSelection, AllSelection, Selection, NodeSelection } from 'prosemirror-state';
 import { MenuBtnViewType } from '@/../types';
 
 import LinkBubbleMenu from './LinkBubbleMenu.vue';
+import ImageBubbleMenu from './ImageBubbleMenu.vue';
+import VideoBubbleMenu from './VideoBubbleMenu.vue';
 
 const enum MenuType {
   NONE = 'none',
   DEFAULT = 'default',
   LINK = 'link',
-};
+  IMAGE = 'image',
+  VIDEO = 'video'
+}
 
 @Component({
   components: {
     'v-icon': Icon,
     EditorMenuBubble,
     LinkBubbleMenu,
+    ImageBubbleMenu,
+    VideoBubbleMenu
   },
 })
 export default class MenuBubble extends Vue {
@@ -111,6 +116,22 @@ export default class MenuBubble extends Vue {
     return this.$_isLinkSelection(selection);
   }
 
+  private get isImageSelection (): boolean {
+    const { state } = this.editor;
+    const { tr } = state;
+    const { selection } = tr;
+
+    return this.$_isImageActive(selection);
+  }
+
+  private get isVideoSelection (): boolean {
+    const { state } = this.editor;
+    const { tr } = state;
+    const { selection } = tr;
+
+    return this.$_isVideoActive(selection);
+  }
+
   linkBack () {
     this.setMenuType(MenuType.DEFAULT);
     this.isLinkBack = true;
@@ -122,6 +143,10 @@ export default class MenuBubble extends Vue {
       if (!this.isLinkBack) {
         this.setMenuType(MenuType.LINK);
       }
+    } else if (this.$_isImageActive(selection)) {
+      this.setMenuType(MenuType.IMAGE);
+    } else if (this.$_isVideoActive(selection)) {
+      this.setMenuType(MenuType.VIDEO);
     } else {
       this.activeMenu = this.$_getCurrentMenuType();
       this.isLinkBack = false;
@@ -170,8 +195,30 @@ export default class MenuBubble extends Vue {
     return range.to === $to.pos;
   }
 
+  $_isImageActive (selection: Selection) {
+    const { schema } = this.editor;
+    const imageType = schema.nodes.image;
+
+    if (!imageType) return false;
+    if (!selection) return false;
+
+    return selection instanceof NodeSelection && nodeEqualsType({ types: imageType, node: selection.node });
+  }
+
+  $_isVideoActive (selection: Selection) {
+    const { schema } = this.editor;
+    const imageType = schema.nodes.video;
+
+    if (!imageType) return false;
+    if (!selection) return false;
+
+    return selection instanceof NodeSelection && nodeEqualsType({ types: imageType, node: selection.node });
+  }
+
   $_getCurrentMenuType (): MenuType {
     if (this.isLinkSelection) return MenuType.LINK;
+    if (this.isImageSelection) return MenuType.IMAGE;
+    if (this.isVideoSelection) return MenuType.VIDEO;
     if (this.editor.state.selection instanceof TextSelection ||
       this.editor.state.selection instanceof AllSelection) {
       return MenuType.DEFAULT;

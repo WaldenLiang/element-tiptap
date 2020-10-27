@@ -3,19 +3,15 @@
     v-model="popoverVisible"
     placement="top"
     trigger="click"
-    popper-class="el-tiptap-popper"
-  >
+    popper-class="el-tiptap-popper">
     <div class="el-tiptap-popper__menu">
       <div
         v-for="display in displayCollection"
         :key="display"
-        :class="{
-          'el-tiptap-popper__menu__item--active': display === currDisplay,
-        }"
+        :class="{'el-tiptap-popper__menu__item--active': display === currDisplay}"
         class="el-tiptap-popper__menu__item"
         @mousedown="hidePopover"
-        @click="updateAttrs({ display })"
-      >
+        @click="updateAttrs({ display })">
         <span>{{ et.t(`editor.extensions.Image.buttons.display.${display}`) }}</span>
       </div>
     </div>
@@ -24,17 +20,16 @@
       slot="reference"
       :enable-tooltip="et.tooltip"
       :tooltip="et.t('editor.extensions.Image.buttons.display.tooltip')"
-      icon="regular/image"
-    />
+      icon="regular/image" />
   </el-popover>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Inject, Vue } from 'vue-property-decorator';
 import { Popover } from 'element-ui';
-import { Node as ProsemirrorNode } from 'prosemirror-model';
 import { ImageDisplay } from '@/utils/image';
 import CommandButton from '../CommandButton.vue';
+import { MenuData } from 'tiptap';
 
 @Component({
   components: {
@@ -44,16 +39,16 @@ import CommandButton from '../CommandButton.vue';
 })
 export default class ImageDisplayCommandButton extends Vue {
   @Prop({
-    type: ProsemirrorNode,
+    type: Object,
     required: true,
   })
-  readonly node!: ProsemirrorNode;
+  readonly editorContext!: MenuData;
 
   @Prop({
-    type: Function,
+    type: Object,
     required: true,
   })
-  readonly updateAttrs!: Function;
+  readonly initAttrs!: { display: string };
 
   @Inject() readonly et!: any;
 
@@ -67,11 +62,20 @@ export default class ImageDisplayCommandButton extends Vue {
   ];
 
   private get currDisplay () {
-    return this.node.attrs.display;
+    // return this.node.attrs.display;
+    return this.initAttrs.display;
   }
 
   private hidePopover () {
     this.popoverVisible = false;
+  }
+
+  created () {
+    console.log(this.editorContext);
+  }
+
+  updateAttrs (attrs: object) {
+    this.editorContext.commands.updateNode(Object.assign(this.initAttrs, attrs));
   }
 }
 </script>

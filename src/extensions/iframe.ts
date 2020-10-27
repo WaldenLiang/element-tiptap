@@ -2,6 +2,7 @@
 import { Node, MenuData } from 'tiptap';
 import { MenuBtnView } from '@/../types';
 import IframeCommandButton from '@/components/MenuCommands/IframeCommandButton.vue';
+import IFrameView from '@/components/ExtensionViews/IFrameView.vue';
 
 export default class Iframe extends Node implements MenuBtnView {
   get name () {
@@ -28,7 +29,7 @@ export default class Iframe extends Node implements MenuBtnView {
       toDOM: (node) => ['iframe', {
         src: node.attrs.src,
         frameborder: 0,
-        allowfullscreen: 'true',
+        allowfullscreen: 'true'
       }],
     };
   }
@@ -44,26 +45,7 @@ export default class Iframe extends Node implements MenuBtnView {
   }
 
   get view () {
-    return {
-      props: ['node', 'updateAttrs', 'view'],
-      computed: {
-        src: {
-          get () {
-            return this.node.attrs.src;
-          },
-          set (src) {
-            this.updateAttrs({
-              src,
-            });
-          },
-        },
-      },
-      template: `
-        <div class="iframe">
-          <iframe class="iframe__embed" :src="src"></iframe>
-        </div>
-      `,
-    };
+    return IFrameView;
   }
 
   menuBtnView (editorContext: MenuData) {

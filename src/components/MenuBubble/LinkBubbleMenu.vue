@@ -38,8 +38,7 @@ export default class LinkBubbleMenu extends Vue {
 
   private get linkAttrs () {
     const { getMarkAttrs } = this.editorContext;
-    const linkAttrs = getMarkAttrs('link');
-    return linkAttrs;
+    return getMarkAttrs('link');
   }
 };
 </script>

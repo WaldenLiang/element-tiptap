@@ -35,6 +35,12 @@ export default {
             open_in_new_tab: 'Открыть в новой вкладке',
             confirm: 'Применить',
             cancel: 'Отменить',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         edit: {
@@ -45,6 +51,12 @@ export default {
             open_in_new_tab: 'Открыть в новой вкладке',
             confirm: 'Обновить',
             cancel: 'Отменить',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         unlink: {

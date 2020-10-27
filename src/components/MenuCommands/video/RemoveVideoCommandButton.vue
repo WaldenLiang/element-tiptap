@@ -1,8 +1,8 @@
 <template>
   <command-button
-    :command="removeImage"
+    :command="removeVideo"
     :enable-tooltip="et.tooltip"
-    :tooltip="et.t('editor.extensions.Image.buttons.remove_image.tooltip')"
+    tooltip="移除视频"
     icon="regular/trash-alt"
   />
 </template>
@@ -17,7 +17,7 @@ import { MenuData } from 'tiptap';
     CommandButton,
   },
 })
-export default class RemoveImageCommandButton extends Vue {
+export default class RemoveVideoCommandButton extends Vue {
   @Prop({
     type: Object,
     required: true,
@@ -26,7 +26,7 @@ export default class RemoveImageCommandButton extends Vue {
 
   @Inject() readonly et!: any;
 
-  private removeImage () {
+  private removeVideo () {
     this.editorContext.commands.removeNode();
   }
 };

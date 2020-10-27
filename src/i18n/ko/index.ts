@@ -35,6 +35,12 @@ export default {
             open_in_new_tab: '새 탭에서 열기',
             confirm: '적용',
             cancel: '취소',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         edit: {
@@ -45,6 +51,12 @@ export default {
             open_in_new_tab: '새 탭에서 열기',
             confirm: '적용',
             cancel: '취소',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         unlink: {

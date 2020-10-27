@@ -24,6 +24,7 @@ export { default as TodoItem } from './todo_item';
 export { default as TodoList } from './todo_list';
 export { default as Table } from './table';
 export { default as Iframe } from './iframe';
+export { default as Video } from './video';
 
 // marks
 export { default as Bold } from './bold';

@@ -51,6 +51,12 @@ export default {
             open_in_new_tab: '在新标签页中打开',
             confirm: '更新',
             cancel: '取消',
+            link_type: {
+              web: '网页',
+              mail: '邮箱',
+              tel: '电话',
+              sms: '短信',
+            }
           },
         },
         unlink: {

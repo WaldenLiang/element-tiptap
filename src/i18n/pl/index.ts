@@ -35,6 +35,12 @@ export default {
             open_in_new_tab: 'Otwórz w nowej karcie',
             confirm: 'Dodaj',
             cancel: 'Anuluj',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         edit: {
@@ -45,6 +51,12 @@ export default {
             open_in_new_tab: 'Otwórz w nowej karcie',
             confirm: 'aktualizacja',
             cancel: 'Anuluj',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         unlink: {

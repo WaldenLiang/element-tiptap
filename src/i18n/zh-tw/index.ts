@@ -35,6 +35,12 @@ export default {
             open_in_new_tab: '在新分頁開啟',
             confirm: '新增',
             cancel: '取消',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         edit: {
@@ -45,6 +51,12 @@ export default {
             open_in_new_tab: '在新分頁開啟',
             confirm: '更新',
             cancel: '取消',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         unlink: {

@@ -1,8 +1,8 @@
 {
-  "name": "element-tiptap",
-  "version": "1.26.2",
+  "name": "element-tiptap-for-self",
+  "version": "1.26.6",
   "description": "🌸A modern WYSIWYG rich-text editor using tiptap and Element UI for Vue.js",
-  "author": "leecason",
+  "author": "waldenliang@outlook.com",
   "scripts": {
     "serve": "vue-cli-service serve --open examples/main.js",
     "lint": "vue-cli-service lint",
@@ -81,8 +81,8 @@
     "vue-template-compiler": "^2.6.10"
   },
   "peerDependencies": {
-    "element-ui": "^2.0.0",
-    "vue": "^2.0.0"
+    "element-ui": "2.0.0",
+    "vue": "2.0.0"
   },
   "resolutions": {
     "prosemirror-model": "1.9.1"

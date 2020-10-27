@@ -35,6 +35,12 @@ export default {
             open_in_new_tab: 'Abrir en una pestaña nueva',
             confirm: 'Crear',
             cancel: 'Cancelar',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         edit: {
@@ -45,6 +51,12 @@ export default {
             open_in_new_tab: 'Abrir en una pestaña nueva',
             confirm: 'Actualizar',
             cancel: 'Cancelar',
+            link_type: {
+              web: 'Web',
+              mail: 'Mail',
+              tel: 'Tel',
+              sms: 'SMS',
+            }
           },
         },
         unlink: {
